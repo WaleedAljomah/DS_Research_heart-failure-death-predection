@@ -17,11 +17,13 @@ library(tidyverse)
 # DEATH_EVENT - 0 = No, 1 = Yes
 heart <- read.csv("data/heart_failure_clinical_records_dataset.csv")
 
-heart <- as_tibble(heart)
+
 
 #Explore data----
+head(heart)
 summary(heart)
-glimpse(heart)
+
+
 
 # determining most important numbers----
 
@@ -33,6 +35,7 @@ heart %>%
                               `0` = "Alive",
                               `1` = "Death")) %>%
   count(DEATH_EVENT)
+
 
 
 
@@ -50,11 +53,7 @@ heart %>%
 
 
 
-# plot Age distribution 
 
-heart %>%
-  ggplot(aes(x = age)) +
-  geom_bar()
 
 # relationship between Death AND Low Ejection fraction AND CPK ---- 
 
@@ -102,9 +101,6 @@ ggplot(deaths$ejection_fraction, aes(c(10, 20, 30, 40, 50, 60), deaths$ejection_
 
 
 
-#ggplot(heart aes(DEATH_EVENT, ejection_fraction))
-  
-
 
 #EF_mean_all <- mean(heart$ejection_fraction)
 #EF_mean_death <- mean(deaths)
@@ -114,16 +110,28 @@ ggplot(deaths$ejection_fraction, aes(c(10, 20, 30, 40, 50, 60), deaths$ejection_
 
 
 #3 how many patients died with low ejection fraction and high CPK ?
-# (count (if death_event = 1), AND (count ejection_fraction <40 ) + (count high CPK > 500 ))
 
-
+low_Ejection_Fraction_death %>%
+  filter(creatinine_phosphokinase > 500) %>%
+  nrow()
 
 #4 how many patients died with NORMAL ejection fraction AND high CPK > 500 ?
 # (count)
-
+heart %>%
+  filter(ejection_fraction > 40) %>%
+  filter(DEATH_EVENT == '1') %>%
+  filter(creatinine_phosphokinase > 500) %>%
+  nrow()
+  
+  
 
 #5 how many patients died with NORMAL ejection_fraction and Normal CPK ? 
-#6 compare 3 with 4 AND 5 
+
+deaths %>%
+  filter(ejection_fraction > 40) %>%
+  filter(creatinine_phosphokinase < 500) %>%
+  nrow()
+  
 
 
 
@@ -134,8 +142,17 @@ ggplot(deaths$ejection_fraction, aes(c(10, 20, 30, 40, 50, 60), deaths$ejection_
 
 #7 what is the relation between death and age of the patients? 
 
- 
+# plot Age distribution in all patients 
 
+heart %>%
+  ggplot(aes(x = age)) +
+  geom_bar()
+
+#plot Age distribution in deaths only 
+
+deaths %>%
+  ggplot(aes(x = age)) +
+  geom_bar()
 
 #8 what is the distribution of age + low ejection fraction + death (3 variables)
 
