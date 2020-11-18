@@ -39,7 +39,7 @@ heart %>%
 
 
 
-#plot patients (death_Event),  death or alive?
+# plot patients death or alive?
 
 
 heart %>%
@@ -69,9 +69,6 @@ mean_Ejection_Fraction_all <- mean(heart$ejection_fraction)
 low_Ejection_Fraction_death <- heart %>%
   filter(heart$DEATH_EVENT == '1', heart$ejection_fraction < 40)
 
-#mean of Ejection fraction in death and low Ejection fraction
-
-mean_Ejection_Fraction_death_Low_EF <-mean(low_Ejection_Fraction_death$ejection_fraction)
 
 #mean of Ejection fraction in death 
 #mean_Ejection_fraction_death <- heart %>%
@@ -96,7 +93,7 @@ ggplot(heart, aes(ejection_fraction, fill = factor(DEATH_EVENT))) +
 
 
 
-ggplot(deaths$ejection_fraction, aes(c(10, 20, 30, 40, 50, 60), deaths$ejection_fraction)) +
+#ggplot(deaths$ejection_fraction, aes(c(10, 20, 30, 40, 50, 60), deaths$ejection_fraction)) +
   geom_point()
 
 

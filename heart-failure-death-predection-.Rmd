@@ -1,0 +1,137 @@
+---
+title: "heart failure death predection"
+auther: "Waleed Aljomah"
+output: html_document
+---
+
+# Prereqs
+```{r}
+library(tidyverse)
+```
+
+
+# [source of data](https://www.kaggle.com/andrewmvd/heart-failure-clinical-data)
+# [publication](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-020-1023-5)
+
+Aim of the data is to predict death in heart failure patients based on  12 features.
+
+features : 
+
+# Sex - Gender of patient Male = 1, Female =0
+# Age - Age of patient
+# Diabetes - 0 = No, 1 = Yes
+# Anaemia - 0 = No, 1 = Yes
+# High_blood_pressure - 0 = No, 1 = Yes
+# Smoking - 0 = No, 1 = Yes
+# DEATH_EVENT - 0 = No, 1 = Yes
+
+
+```{r }
+heart <- read.csv("data/heart_failure_clinical_records_dataset.csv")
+```
+
+# Explore data
+
+
+```{r }
+head(heart)
+summary(heart)
+```
+
+# number of patients (death_Event),  death or alive?
+
+```{r}
+heart %>%
+  mutate(DEATH_EVENT = recode(DEATH_EVENT,
+                              `0` = "Alive",
+                              `1` = "Death")) %>%
+  count(DEATH_EVENT)
+```
+
+
+# plot patients death or alive?
+
+
+```{r}
+heart %>%
+  mutate(DEATH_EVENT = recode(DEATH_EVENT,
+                              `0` = "Alive",
+                              `1` = "Death")) %>%
+  ggplot(aes(x = DEATH_EVENT)) +
+  geom_bar()
+```
+
+# relationship between Death AND Low Ejection fraction AND CPK
+
+#mean of Ejection fraction in all patients
+
+
+```{r}
+mean_Ejection_Fraction_all <- mean(heart$ejection_fraction)
+```
+
+#low Ejection fraction in deaths patients only
+
+
+```{r}
+low_Ejection_Fraction_death <- heart %>%
+  filter(heart$DEATH_EVENT == '1', heart$ejection_fraction < 40)
+```
+
+#mean of Ejection fraction in death and low Ejection fraction
+```{r}
+mean_Ejection_Fraction_death_Low_EF <-mean(low_Ejection_Fraction_death$ejection_fraction)
+```
+
+
+# plot the relation between death and low ejection fraction? 
+
+```{r}
+ggplot(heart, aes(ejection_fraction, fill = factor(DEATH_EVENT))) +
+  geom_histogram(aes(y = ..density..), position = position_dodge(width = 0), alpha = 0.5) +
+  geom_density(alpha = 0.4, color = NA)
+```
+
+# how many patients died with NORMAL ejection fraction AND high CPK > 500 ?
+
+
+```{r}
+heart %>%
+  filter(ejection_fraction > 40) %>%
+  filter(DEATH_EVENT == '1') %>%
+  filter(creatinine_phosphokinase > 500) %>%
+  nrow()
+```
+
+# how many patients died with NORMAL ejection_fraction and Normal CPK ? 
+
+
+```{r}
+ heart %>%
+  filter(DEATH_EVENT == '1') %>%
+  filter(ejection_fraction > 40) %>%
+  filter(creatinine_phosphokinase < 500) %>%
+  nrow()
+```
+
+# what is the relation between death and age of the patients? 
+
+# plot Age distribution in all patients 
+```{r}
+heart %>%
+  ggplot(aes(x = age)) +
+  geom_bar()
+```
+
+
+
+#plot Age distribution in deaths only 
+```{r}
+heart %>%
+  filter(DEATH_EVENT == '1') %>%
+  ggplot(aes(x = age)) +
+  geom_bar()
+```
+
+
+  
