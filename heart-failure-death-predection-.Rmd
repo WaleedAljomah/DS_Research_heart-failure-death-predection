@@ -13,7 +13,7 @@ library(tidyverse)
 # [source of data](https://www.kaggle.com/andrewmvd/heart-failure-clinical-data)
 # [publication](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-020-1023-5)
 
-Aim of the data is to predict death in heart failure patients based on  12 features.
+Aim of the data according to the publication paper is to predict death in heart failure patients based on 12 features.
 
 features : 
 
@@ -24,7 +24,11 @@ features :
 # High_blood_pressure - 0 = No, 1 = Yes
 # Smoking - 0 = No, 1 = Yes
 # DEATH_EVENT - 0 = No, 1 = Yes
-
+# creatinine_phosphokinase
+# ejection_fraction
+# platelets
+# serum_creatinine
+# serum_sodium
 
 ```{r }
 heart <- read.csv("data/heart_failure_clinical_records_dataset.csv")
