@@ -9,7 +9,7 @@ Heart failure develops when the heart fails to pump blood at a rate commensurate
 
 #### Why is it important to predict bad prognosis in heart failure patients?
 
-Decompensated heart failure lead to multiple admissions, which a burden on health system and to the patients socioeconomic status. Advanced heart failure indicators as high creatinine and presence of diabetes and arrhythmias which is the leading cause of sudden cardiac death.
+Decompensated heart failure lead to multiple admissions, which is a burden both on a health system and to the patients. 
 
 
 
